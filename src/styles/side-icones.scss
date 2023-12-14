@@ -1,0 +1,22 @@
+$sizeIcones : 64px;
+
+.container{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .side-icones{
+    background-color: white;
+    width: $sizeIcones;
+    height: $sizeIcones;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+

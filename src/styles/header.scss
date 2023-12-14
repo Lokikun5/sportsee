@@ -1,0 +1,36 @@
+header{
+
+  height: 91px;
+  background-color: black;
+
+  display: flex;
+
+  .sport-logo{
+    width: 178px;
+    height: 60.93px;
+    padding-left: 28px;
+    padding-top: 18px;
+
+  }
+  nav{
+    width: 994px;
+    height: 24xp;
+  }
+  .nav-link{
+    display: flex;
+    gap: 150px;
+    list-style: none;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+    padding-left: 355px;
+    margin-top: 36px;
+
+
+    a{
+      text-decoration: none;
+      color: white;
+    }
+
+  }
+}

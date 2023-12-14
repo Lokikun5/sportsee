@@ -1,4 +1,4 @@
-.sidebar{
+.sidebar {
   position: fixed;
   top: 0;
   background-color: black;
@@ -9,19 +9,18 @@
   justify-content: space-between;
   align-items: center;
   z-index: -1;
-
-.copiryght{
+}
+.sidebar .copiryght {
   position: absolute;
   bottom: 10%;
   width: 10rem;
   transform: rotate(-90deg);
-
-  p{
-    color: #FFF;
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.5rem;
-  }
-
 }
+.sidebar .copiryght p {
+  color: #FFF;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.5rem;
 }
+
+/*# sourceMappingURL=sidebar.css.map */
