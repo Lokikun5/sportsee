@@ -1,0 +1,24 @@
+.container-key-data{
+  width: 258px;
+  height: 124px;
+  background-color: #FBFBFB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  .key-data-info{
+    display: flex;
+    flex-direction: column;
+    .stat{
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0px;
+
+    }
+    .stat-name{
+      margin-top: 5px;
+      margin-bottom: 0px;
+    }
+  }
+}
