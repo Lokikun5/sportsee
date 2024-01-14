@@ -43,7 +43,7 @@ function Dashboard() {
 
     const { firstName } = userData.userInfos;
     const { calorieCount, proteinCount, carbohydrateCount, lipidCount } = userData.keyData;
-
+    const { todayScore } = userData;
     return (
         <section className="dashboard-cont">
             <h1>Bonjour <span className="name">{firstName}</span></h1>
@@ -54,7 +54,7 @@ function Dashboard() {
                     <div className="d-flex2">
                         <TinyLineChart data={averageSessionData}/>
                         <UserPerformanceRadarChart data={performanceData}/>
-                        <ScoreRadialBarChart/>
+                        <ScoreRadialBarChart score={todayScore * 100}/>
                     </div>
                 </div>
                 <KeyData

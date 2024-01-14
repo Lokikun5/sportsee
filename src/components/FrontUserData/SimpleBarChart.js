@@ -2,23 +2,42 @@ import React, { PureComponent } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../../styles/SimpleBarChart.scss';
 
+//contenu personnalisé du Tooltip
+const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip" style={{
+                backgroundColor: '#E60000',
+                padding: '10px',
+                color: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '60px'
+            }}>
+                <p className="label">{`${payload[1].value} kg`}</p>
+                <p className="intro">{`${payload[0].value} Kcal`}</p>
+            </div>
+        );
+    }
+
+    return null;
+};
+
 export default class SimpleBarChart extends PureComponent {
     render() {
-        const { data } = this.props; // Récupération des données passées en tant que props
+        const { data } = this.props;
 
-        // Formatage des données
+        // Formatage des données et calcul des maxima
         const formattedData = data.map((item, index) => ({
             name: (index + 1).toString(),
-            uv: item.calories,
-            pv: item.kilogram
+            calories: item.calories,
+            poids: item.kilogram
         }));
+        const maxCalories = Math.max(...formattedData.map(item => item.calories));
+        const maxWeight = Math.max(...formattedData.map(item => item.poids));
+        const minWeight = Math.min(...formattedData.map(item => item.poids));
 
-        // Calcul des valeurs de poids minimum, médian et maximum
-        const weights = formattedData.map(item => item.pv);
-        const minWeight = Math.min(...weights);
-        const maxWeight = Math.max(...weights);
-        const medianWeight = weights.sort((a, b) => a - b)[Math.floor(weights.length / 2)];
-
+        // Tailles pour la légende et le titre
         const legendHeight = 25;
         const titleHeight = 30;
 
@@ -40,11 +59,16 @@ export default class SimpleBarChart extends PureComponent {
                     <YAxis
                         yAxisId="left"
                         orientation="left"
-                        domain={[minWeight, maxWeight]}
-                        ticks={[minWeight, medianWeight, maxWeight]}
+                        domain={[0, maxCalories]}
+                        hide={true}
                     />
-                    <YAxis yAxisId="right" orientation="right" />
-                    <Tooltip />
+                    <YAxis
+                        yAxisId="right"
+                        orientation="right"
+                        domain={[minWeight - 1, maxWeight + 1]}
+                        allowDataOverflow
+                    />
+                    <Tooltip content={<CustomTooltip />} />
                     <Legend
                         iconType="circle"
                         verticalAlign="top"
@@ -58,8 +82,8 @@ export default class SimpleBarChart extends PureComponent {
                     <text x={30} y={titleHeight} className="title" textAnchor="left" dominantBaseline="middle">
                         Activité quotidienne
                     </text>
-                    <Bar yAxisId="left" dataKey="pv" name="Poids (kg)" fill="#282D30" barSize={7} radius={[10, 10, 0, 0]} />
-                    <Bar yAxisId="right" dataKey="uv" name="Calories brûlées (kCal)" fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="calories" name="Calories brûlées (kCal)" fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
+                    <Bar yAxisId="right" dataKey="poids" name="Poids (kg)" fill="#282D30" barSize={7} radius={[10, 10, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>
         );

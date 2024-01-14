@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/TinyLineChart.scss';
 import {
-    LineChart, Line, XAxis, Tooltip, ResponsiveContainer, Text
+    LineChart, Line, Tooltip, ResponsiveContainer, Legend, XAxis,
 } from 'recharts';
 
 // Mapping des numéros aux jours de la semaine
@@ -20,11 +20,11 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 const TinyLineChart = ({ data }) => {
-    console.log(data);
+
     // Transformer les données pour utiliser les abréviations des jours
     const formattedData = data.map(session => ({
         ...session,
-        day: daysOfWeek[session.day - 1], // -1 car les jours dans votre data commencent à 1
+        day: daysOfWeek[session.day - 1],
     }));
 
     return (
@@ -32,15 +32,26 @@ const TinyLineChart = ({ data }) => {
             <LineChart
                 data={formattedData}
                 margin={{
-                    top: 5, right: 30, left: 20, bottom: 5,
+                    top: 50, right: 30, left: 20, bottom: 0,
                 }}
             >
-                <XAxis dataKey="day" stroke="#FFFFFF" />
+                <XAxis
+                    dataKey="day"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontSize: 14, fontWeight: 'bold', fill: '#FFFFFF', opacity: 0.7 }}
+                />
                 <Tooltip stroke="#00000" content={<CustomTooltip />} />
                 <Line type="monotone" dataKey="sessionLength" stroke="#FFFFFF" activeDot={{ r: 8 }} />
-                <Text x={20} y={30} fill="#FFFFFF" fontSize={20} fontWeight="bold">
-                    Durée moyenne des sessions
-                </Text>
+                <Legend
+                    verticalAlign="top"
+                    align="left"
+                    content={() => (
+                        <div style={{ color: 'white', opacity: 0.7 }}>
+                            Durée moyenne des sessions
+                        </div>
+                    )}
+                />
             </LineChart>
         </ResponsiveContainer>
     );
