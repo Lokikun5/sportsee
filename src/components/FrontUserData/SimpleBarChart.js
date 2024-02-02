@@ -23,6 +23,11 @@ const CustomTooltip = ({ active, payload }) => {
     return null;
 };
 
+const renderColorfulLegendText = (value, entry) => {
+    const { color } = entry;
+    return <span style={{ color: value === "Calories brûlées (kCal)" ? 'black' : color }}>{value}</span>;
+};
+
 export default class SimpleBarChart extends PureComponent {
     render() {
         const { data } = this.props;
@@ -78,12 +83,13 @@ export default class SimpleBarChart extends PureComponent {
                             top: titleHeight - legendHeight,
                             right: 50,
                         }}
+                        formatter={renderColorfulLegendText}
                     />
                     <text x={30} y={titleHeight} className="title" textAnchor="left" dominantBaseline="middle">
                         Activité quotidienne
                     </text>
-                    <Bar yAxisId="left" dataKey="calories" name="Calories brûlées (kCal)" fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
                     <Bar yAxisId="right" dataKey="poids" name="Poids (kg)" fill="#282D30" barSize={7} radius={[10, 10, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="calories" name="Calories brûlées (kCal)"  fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
                 </BarChart>
             </ResponsiveContainer>
         );

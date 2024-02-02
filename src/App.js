@@ -8,15 +8,11 @@ import HomePage from "./pages/HomePage";
 const router = createBrowserRouter([
     {
       path:'/',
-      element:<div><Header />
-          <Sidebar /><HomePage/></div>
+      element:<div><Header /><Sidebar /><HomePage/></div>
     },
     {
         path: '/dashboard/:id',
-        element: <div><Header />
-            <Sidebar />
-            <Dashboard/>
-        </div>
+        element: <div><Header /><Sidebar /><Dashboard/></div>
     }
 ]);
 
