@@ -17,12 +17,12 @@ function getUserInfo(userId) {
     return apiClient.get(`/user/${userId}/activity`);
   }
   
-  // Récupère les sessions moyennes d'un utilisateur
+  // Retrieves a user's average sessions
   function getUserAverageSessions(userId) {
     return apiClient.get(`/user/${userId}/average-sessions`);
   }
   
-  // Récupère la performance d'un utilisateur
+  // Retrieves a user's performance
   function getUserPerformance(userId) {
     return apiClient.get(`/user/${userId}/performance`);
   }

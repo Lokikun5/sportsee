@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { LineChart, Line, Tooltip, ResponsiveContainer, Legend, XAxis } from 'recharts';
 import '../../styles/TinyLineChart.scss';
 
-// Mapping des numéros aux jours de la semaine
+// This array maps numbers to days of the week for easier data handling and display
 const daysOfWeek = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
 const TinyLineChart = ({ data }) => {
     const [hoveredDayIndex, setHoveredDayIndex] = useState(-1);
 
-    // Transformer les données pour utiliser les abréviations des jours
+    // Format data to use day abbreviations instead of full names or numbers
     const formattedData = data.map(session => ({
         ...session,
         day: daysOfWeek[session.day - 1],
     }));
 
+    // Custom tooltip component that displays the session length when a point is hovered
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const dayIndex = daysOfWeek.indexOf(label);
@@ -27,7 +28,7 @@ const TinyLineChart = ({ data }) => {
         setHoveredDayIndex(-1);
         return null;
     };
-
+    // Calculate shadow width and position based on the hovered day to create a dynamic shadow effect
     const shadowWidth = hoveredDayIndex >= 0 ? `${(100 / daysOfWeek.length) * (daysOfWeek.length - hoveredDayIndex)}%` : '0%';
     const offset = 18;
     const shadowX = hoveredDayIndex >= 0
@@ -75,7 +76,7 @@ const TinyLineChart = ({ data }) => {
                         </div>
                     )}
                 />
-                {/* Rectangle d'assombrissement qui change en fonction du jour survolé */}
+                {/* Dynamic shadow rectangle that changes based on the hovered day */}
                 <rect x={shadowX} y="0" width={shadowWidth} height="100%" fill="rgba(0, 0, 0, 0.2)" />
             </LineChart>
         </ResponsiveContainer>

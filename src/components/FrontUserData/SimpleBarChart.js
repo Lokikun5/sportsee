@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../../styles/SimpleBarChart.scss';
 
-//contenu personnalisé du Tooltip
+// Contenu personnalisé du Tooltip
 const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
         return (
@@ -23,75 +23,76 @@ const CustomTooltip = ({ active, payload }) => {
     return null;
 };
 
+// Function for colored legendary text
 const renderColorfulLegendText = (value, entry) => {
     const { color } = entry;
     return <span style={{ color: value === "Calories brûlées (kCal)" ? 'black' : color }}>{value}</span>;
 };
 
-export default class SimpleBarChart extends PureComponent {
-    render() {
-        const { data } = this.props;
 
-        // Formatage des données et calcul des maxima
-        const formattedData = data.map((item, index) => ({
-            name: (index + 1).toString(),
-            calories: item.calories,
-            poids: item.kilogram
-        }));
-        const maxCalories = Math.max(...formattedData.map(item => item.calories));
-        const maxWeight = Math.max(...formattedData.map(item => item.poids));
-        const minWeight = Math.min(...formattedData.map(item => item.poids));
+const SimpleBarChart = ({ data }) => {
+    //Formatting data to fit the bar chart
+    const formattedData = data.map((item, index) => ({
+        name: (index + 1).toString(),
+        calories: item.calories,
+        poids: item.kilogram
+    }));
 
-        // Tailles pour la légende et le titre
-        const legendHeight = 25;
-        const titleHeight = 30;
+    // Calculating maximum and minimum values for chart axes
+    const maxCalories = Math.max(...formattedData.map(item => item.calories));
+    const maxWeight = Math.max(...formattedData.map(item => item.poids));
+    const minWeight = Math.min(...formattedData.map(item => item.poids));
+    
+    const legendHeight = 25;
+    const titleHeight = 30;
 
-        return (
-            <ResponsiveContainer className="size">
-                <BarChart
-                    width={500}
-                    height={300}
-                    data={formattedData}
-                    margin={{
-                        top: legendHeight + titleHeight,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
+    return (
+        <ResponsiveContainer className="size">
+            <BarChart
+                width={500}
+                height={300}
+                data={formattedData}
+                margin={{
+                    top: legendHeight + titleHeight,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis
+                    yAxisId="left"
+                    orientation="left"
+                    domain={[0, maxCalories]}
+                    hide={true}
+                />
+                <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    domain={[minWeight - 1, maxWeight + 1]}
+                    allowDataOverflow
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend
+                    iconType="circle"
+                    verticalAlign="top"
+                    align="right"
+                    wrapperStyle={{
+                        lineHeight: `${legendHeight}px`,
+                        top: titleHeight - legendHeight,
+                        right: 50,
                     }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis
-                        yAxisId="left"
-                        orientation="left"
-                        domain={[0, maxCalories]}
-                        hide={true}
-                    />
-                    <YAxis
-                        yAxisId="right"
-                        orientation="right"
-                        domain={[minWeight - 1, maxWeight + 1]}
-                        allowDataOverflow
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend
-                        iconType="circle"
-                        verticalAlign="top"
-                        align="right"
-                        wrapperStyle={{
-                            lineHeight: `${legendHeight}px`,
-                            top: titleHeight - legendHeight,
-                            right: 50,
-                        }}
-                        formatter={renderColorfulLegendText}
-                    />
-                    <text x={30} y={titleHeight} className="title" textAnchor="left" dominantBaseline="middle">
-                        Activité quotidienne
-                    </text>
-                    <Bar yAxisId="right" dataKey="poids" name="Poids (kg)" fill="#282D30" barSize={7} radius={[10, 10, 0, 0]} />
-                    <Bar yAxisId="left" dataKey="calories" name="Calories brûlées (kCal)"  fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
-                </BarChart>
-            </ResponsiveContainer>
-        );
-    }
-}
+                    formatter={renderColorfulLegendText}
+                />
+                <text x={30} y={titleHeight} className="title" textAnchor="left" dominantBaseline="middle">
+                    Activité quotidienne
+                </text>
+                <Bar yAxisId="right" dataKey="poids" name="Poids (kg)" fill="#282D30" barSize={7} radius={[10, 10, 0, 0]} />
+                <Bar yAxisId="left" dataKey="calories" name="Calories brûlées (kCal)"  fill="#E60000" barSize={7} radius={[10, 10, 0, 0]} />
+            </BarChart>
+        </ResponsiveContainer>
+    );
+};
+
+export default SimpleBarChart;
