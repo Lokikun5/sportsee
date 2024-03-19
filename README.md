@@ -1,3 +1,5 @@
+# Pour afficher les graphiques avec les données de l'API, veuillez suivre le README du backend, puis passez la variable useAPIData à true dans le composant Dashboard.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
