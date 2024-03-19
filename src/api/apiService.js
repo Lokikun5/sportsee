@@ -7,12 +7,12 @@ const apiClient = axios.create({
   },
 });
 
-// Récupère les informations d'un utilisateur
+// Retrieves user information
 function getUserInfo(userId) {
     return apiClient.get(`/user/${userId}`);
   }
   
-  // Récupère l'activité d'un utilisateur
+  // Retrieves user activity
   function getUserActivity(userId) {
     return apiClient.get(`/user/${userId}/activity`);
   }
@@ -27,3 +27,4 @@ function getUserInfo(userId) {
     return apiClient.get(`/user/${userId}/performance`);
   }
   
+  export { getUserInfo, getUserActivity, getUserAverageSessions, getUserPerformance };
