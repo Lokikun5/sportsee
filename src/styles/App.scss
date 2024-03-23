@@ -1,0 +1,43 @@
+@media (max-width: 1100px){
+  header{
+    .nav-link{
+      gap: 30px !important;
+      padding-left: 50px!important;
+    }
+  }
+
+  .dashboard-cont{
+    margin-left: 130px;
+    margin-top: 0;
+  }
+  .margin-group{
+    margin-top: 5px !important;
+  }
+  .size{
+    width: 500px !important;
+    height: 210px !important;
+  }
+
+  .d-flex2{
+    width: 500px !important;
+  }
+
+  .c-graph{
+    width: 33.3% !important;
+    height: 200px !important;
+  }
+
+  .user-stats{
+    justify-content: initial;
+    height: 400px;
+  }
+  .sidebar{
+    min-height: 86vh !important;
+  }
+  .recharts-legend-wrapper{
+    right: 35px !important;
+  }
+  .leg-font{
+    font-size: 10px;
+  }
+}

@@ -8,7 +8,7 @@ import ScoreRadialBarChart from "./FrontUserData/ScoreRadialBarChart";
 import KeyData from './FrontUserData/KeyData';
 
 // Toggle to switch between using mocked data and API data.
-const useAPIData = true;
+const useAPIData = false;
 
 function Dashboard() {
     // Retrieve data for the dashboard from a custom hook, which could be either mocked data or real API data.

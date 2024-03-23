@@ -36,7 +36,7 @@ const TinyLineChart = ({ data }) => {
         : '100%';
 
     return (
-        <ResponsiveContainer className="line-chart-size">
+        <ResponsiveContainer className="line-chart-size c-graph">
             <LineChart
                 data={formattedData}
                 margin={{
@@ -71,7 +71,7 @@ const TinyLineChart = ({ data }) => {
                     verticalAlign="top"
                     align="left"
                     content={() => (
-                        <div style={{ color: 'white', opacity: 0.7 }}>
+                        <div className="leg-font" style={{ color: 'white', opacity: 0.7 }}>
                             Durée moyenne des <br/> sessions
                         </div>
                     )}

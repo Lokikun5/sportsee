@@ -14,8 +14,8 @@ const CustomTooltip = ({ active, payload }) => {
                 flexDirection: 'column',
                 height: '60px'
             }}>
-                <p className="label">{`${payload[1].value} kg`}</p>
-                <p className="intro">{`${payload[0].value} Kcal`}</p>
+                <p className="label">{`${payload[0].value} kg`}</p>
+                <p className="intro">{`${payload[1].value} Kcal`}</p>
             </div>
         );
     }
@@ -42,7 +42,7 @@ const SimpleBarChart = ({ data }) => {
     const maxCalories = Math.max(...formattedData.map(item => item.calories));
     const maxWeight = Math.max(...formattedData.map(item => item.poids));
     const minWeight = Math.min(...formattedData.map(item => item.poids));
-    
+
     const legendHeight = 25;
     const titleHeight = 30;
 
@@ -60,7 +60,9 @@ const SimpleBarChart = ({ data }) => {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name"
+                       tickLine={false}
+                />
                 <YAxis
                     yAxisId="left"
                     orientation="left"
@@ -72,9 +74,11 @@ const SimpleBarChart = ({ data }) => {
                     orientation="right"
                     domain={[minWeight - 1, maxWeight + 1]}
                     allowDataOverflow
+                    tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend
+                    className="set-leng"
                     iconType="circle"
                     verticalAlign="top"
                     align="right"

@@ -6,7 +6,7 @@ const ScoreRadialBarChart = ({ score }) => {
     const data = [{ name: 'Score', uv: score, fill: '#ff0000' }];
 
     return (
-        <div style={{ width: '517px', height: '263px', position: 'relative' }}>
+        <div className="c-graph" style={{ width: '517px', height: '263px', position: 'relative' }}>
             <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
                 <div style={{ color: '#20253A', fontSize: '15px', fontWeight: '600', lineHeight: '24px' }}>Score</div>
             </div>
