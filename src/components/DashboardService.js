@@ -1,66 +1,50 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { getUserInfo, getUserActivity, getUserAverageSessions, getUserPerformance } from '../api/apiService';
 import { USER_MAIN_DATA, USER_ACTIVITY, USER_AVERAGE_SESSIONS, USER_PERFORMANCE } from '../data/data';
 
-// Custom hook to fetch and manage dashboard data
-export const useDashboardData = (useAPIData) => {
-    let { id } = useParams();
+export class DashboardDataService {
+    constructor(userId, useAPIData) {
+        this.userId = userId;
+        this.useAPIData = useAPIData;
+        this.userData = null;
+        this.userActivity = null;
+        this.userAverageSessions = null;
+        this.userPerformance = null;
+        this.error = null;
+    }
 
-    const [userData, setUserData] = useState(null);
-    const [userActivity, setUserActivity] = useState(null);
-    const [userAverageSessions, setUserAverageSessions] = useState(null);
-    const [userPerformance, setUserPerformance] = useState(null);
-    const [error, setError] = useState(null); // Ajout de l'état d'erreur
+    async fetchData() {
+        // Asynchronous API calls with error handling
 
-    useEffect(() => {
-        const fetchData = async () => {
-            // Asynchronous API calls with error handling
-            try {
-                if (useAPIData) {
+        try {
+            if (this.useAPIData) {
+                const userInfoPromise = getUserInfo(this.userId);
+                const activityPromise = getUserActivity(this.userId);
+                const averageSessionsPromise = getUserAverageSessions(this.userId);
+                const performancePromise = getUserPerformance(this.userId);
 
-                    const userInfoPromise = getUserInfo(id);
-                    const activityPromise = getUserActivity(id);
-                    const averageSessionsPromise = getUserAverageSessions(id);
-                    const performancePromise = getUserPerformance(id);
+                const [userInfo, activity, averageSessions, performance] = await Promise.all([
+                    userInfoPromise,
+                    activityPromise,
+                    averageSessionsPromise,
+                    performancePromise
+                ]);
 
-                    const [userInfo, activity, averageSessions, performance] = await Promise.all([
-                        userInfoPromise,
-                        activityPromise,
-                        averageSessionsPromise,
-                        performancePromise
-                    ]);
-
-                    setUserData(userInfo.data.data ? userInfo.data.data : userInfo.data);
-                    setUserActivity(activity.data.data ? activity.data.data : activity.data);
-                    setUserAverageSessions(averageSessions.data.data ? averageSessions.data.data : averageSessions.data);
-                    setUserPerformance(performance.data.data ? performance.data.data : performance.data);
-                    setError(null);
-                } else {
-                    // Données statiques
-                    const staticUserData = USER_MAIN_DATA.find(user => user.id === parseInt(id));
-                    const staticUserActivity = USER_ACTIVITY.find(activity => activity.userId === parseInt(id));
-                    const staticUserAverageSessions = USER_AVERAGE_SESSIONS.find(session => session.userId === parseInt(id));
-                    const staticUserPerformance = USER_PERFORMANCE.find(performance => performance.userId === parseInt(id));
-
-                    setUserData(staticUserData);
-                    setUserActivity(staticUserActivity);
-                    setUserAverageSessions(staticUserAverageSessions);
-                    setUserPerformance(staticUserPerformance);
-                }
-            } catch (error) {
-
-                setError('Impossible de charger les données. Veuillez vérifier votre connexion et réessayer.');
-
-                setUserData(null);
-                setUserActivity(null);
-                setUserAverageSessions(null);
-                setUserPerformance(null);
+                this.userData = userInfo.data.data ? userInfo.data.data : userInfo.data;
+                this.userActivity = activity.data.data ? activity.data.data : activity.data;
+                this.userAverageSessions = averageSessions.data.data ? averageSessions.data.data : averageSessions.data;
+                this.userPerformance = performance.data.data ? performance.data.data : performance.data;
+            } else {
+                this.userData = USER_MAIN_DATA.find(user => user.id === parseInt(this.userId));
+                this.userActivity = USER_ACTIVITY.find(activity => activity.userId === parseInt(this.userId));
+                this.userAverageSessions = USER_AVERAGE_SESSIONS.find(session => session.userId === parseInt(this.userId));
+                this.userPerformance = USER_PERFORMANCE.find(performance => performance.userId === parseInt(this.userId));
             }
-        };
-
-        fetchData();
-    }, [id, useAPIData]);
-
-    return { userData, userActivity, userAverageSessions, userPerformance, error }; // Inclusion de l'état d'erreur dans les données renvoyées
-};
+        } catch (error) {
+            this.error = 'Impossible de charger les données. Veuillez vérifier votre connexion et réessayer.';
+            this.userData = null;
+            this.userActivity = null;
+            this.userAverageSessions = null;
+            this.userPerformance = null;
+        }
+    }
+}
