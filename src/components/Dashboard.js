@@ -8,12 +8,15 @@ import ScoreRadialBarChart from "./FrontUserData/ScoreRadialBarChart";
 import KeyData from './FrontUserData/KeyData';
 
 // Toggle to switch between using mocked data and API data.
-const useAPIData = false;
+const useAPIData = true;
 
 function Dashboard() {
     // Retrieve data for the dashboard from a custom hook, which could be either mocked data or real API data.
-    const { userData, userActivity, userAverageSessions, userPerformance } = useDashboardData(useAPIData);
+    const { userData, userActivity, userAverageSessions, userPerformance,error  } = useDashboardData(useAPIData);
 
+    if (error) {
+        return <section className="dashboard-cont"><h1>Erreur</h1><p>{error}</p></section>;
+    }
     // Render a loading state if any data is not yet available.
     if (!userData || !userActivity || !userAverageSessions || !userPerformance) {
         return <section className="dashboard-cont"><h1>Chargement...</h1></section>;
